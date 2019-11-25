@@ -3,16 +3,28 @@
 Product newProduct;
 // For registering products
 void registerProduct();
-
+void sellerMenu();
 // For Updating Product's Info
 void updateProduct();
 void showStock();
-
+void sellerShopName();
+char shopname[100];
 // To show Sellers main menu
-void sellerMenu () {
+void sellerShopName () {
+    
+    
+    cout<<"You are Logged In as a Seller\n";
+    cout<<"Enter Your Shop Name\n";
+    cin>>shopname;
+    cout << "\033[2J\033[1;1H";
+    sellerMenu();
+}
+void sellerMenu()
+{
     cout << '\t' << "1. Register Product" << '\n';
     cout << '\t' << "2. Update a Product" << '\n';
     cout << '\t' << "3. Show Stock"<<"\n";
+    cout << '\t' << "5. Exit"<<"\n";
         char choice;
     cin >> choice;
     cout << "\033[2J\033[1;1H";
@@ -26,11 +38,11 @@ void sellerMenu () {
         case '3':
             showStock();
             break;
+        case '5': exit(1);
         default :
             break;
     }
 }
-
 
 
 
@@ -48,14 +60,15 @@ void updateProduct() {
 
     while(!feof(fp1))
     {   lno++;
-        fscanf(fp1,"Id : %s | Name : %s | Price : %lf | Quantity : %d | Discount : %lf",id2,name1,&price1,&quantity1,&discount1);
+        fscanf(fp1,"Shop name : %s | Id : %s | Name : %s | Price : %lf | Quantity : %d | Discount : %lf",shopname,id2,name1,&price1,&quantity1,&discount1);
         if(strcmp(id1,id2)==0)
         {   
             
-            cout<<"Product id\t\tProduct Name\t\tPrice\t\tQuantity\t\tDiscount\n"; 
-            cout<<id1<<"\t\t"<<name1<<" \t\t\t"<<price1<<" \t\t"<<quantity1<<" \t\t\t"<<discount1<<"\n";
+            cout<<"Shop Name\t\tProduct id\t\tProduct Name\t\tPrice\t\tQuantity\t\tDiscount\n"; 
+            cout<<shopname<<"\t\t"<<id1<<"\t\t"<<name1<<" \t\t\t"<<price1<<" \t\t"<<quantity1<<" \t\t\t"<<discount1<<"\n";
             cout<<"Enter the updated details \n";
             cout<<"Product name: ";
+            cout<<"Enter Product Type";
             cin>>name2;
             cout<<"Price: ";
             cin>>price2;
@@ -108,24 +121,29 @@ void updateProduct() {
 }
 void showStock()
 {  
-    char id[100],name[100];
+    char id[100],name[100],productType[100],sname[100];
     double price,discount;
     int quantity;
     FILE *fp;
     fp=fopen("DATA.txt","r");
-    cout<<"Product id\t\tProduct Name\t\tPrice\t\tQuantity\t\tDiscount\n"; 
+    cout<<"Shop Name\t\tProduct id\t\tProduct Name\t\tProduct Type\t\tPrice\t\tQuantity\t\tDiscount\n"; 
     while(!feof(fp))
     {    
-        fscanf(fp,"Id : %s | Name : %s | Price : %lf | Quantity : %d | Discount : %lf",id,name,&price,&quantity,&discount);
-        cout<<id<<"\t\t"<<name<<" \t\t\t"<<price<<" \t\t"<<quantity<<" \t\t\t"<<discount<<"\n";
+        fscanf(fp,"Shop Name : %s | Id : %s | Name : %s | Product Type : %s | Price : %lf | Quantity : %d | Discount : %lf",sname,id,name,productType,&price,&quantity,&discount);
+        if(strcmpi(sname,shopname)==0)
+        cout<<sname<<"\t\t"<<id<<"\t\t"<<name<<" \t\t\t"<<productType<<"\t\t"<<price<<" \t\t"<<quantity<<" \t\t\t"<<discount<<"\n";
     }
-        fclose(fp);
+    fclose(fp);
+    getch();
+    //cout << "\033[2J\033[1;1H";
+    sellerMenu();
 }
 void registerProduct()
 {   
     int n;
     string id;
 	string name;
+    string productType;
 	double price;
 	int quantity;
 	double discount;
@@ -140,6 +158,8 @@ void registerProduct()
         cin>>id;
         cout<<"Product name: ";
         cin>>name;
+        cout<<"Product Type: ";
+        cin>>productType;
         cout<<"Price: ";
         cin>>price;
         cout<<"Quantity: ";
@@ -147,10 +167,14 @@ void registerProduct()
         cout<<"Discount: ";
         cin>>discount;
 	    cout << "\033[2J\033[1;1H";
-        newProduct.setDetails(id,name,price,quantity,discount);
-        fprintf(fp, "Id : %s | Name : %s | Price : %lf | Quantity : %d | Discount : %lf", newProduct.getId().c_str(), newProduct.getName().c_str(), newProduct.getPrice(), newProduct.getQuantity(), newProduct.getDiscount());
-        cout << "Yo!";
+        newProduct.setDetails(id,name,productType,price,quantity,discount);
+        fprintf(fp, "Shop Name : %s | Id : %s | Name : %s | Product Type : %s | Price : %lf | Quantity : %d | Discount : %lf", shopname, newProduct.getId().c_str(), newProduct.getName().c_str(),newProduct.getproductType().c_str(), newProduct.getPrice(), newProduct.getQuantity(), newProduct.getDiscount());
     }
     fclose(fp);
+    cout<<"Products registered!!!\n";
+    cout<<"Press enter to continue\n";
+    getch();
+    cout << "\033[2J\033[1;1H";
+    sellerMenu();
     //cout<<sizeof(newProduct)<<"\n";
 }

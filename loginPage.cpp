@@ -7,11 +7,12 @@ int  loginMain();
 int login();
 int signup();
 int authenticate(char[], char []);
-
+string nameofShop(char[],char[]);
 int loginMain () {
 		//bool isAuthentic = false;
 	cout << "1. Login" << endl;
 	cout << "2. Signup" << endl;
+	cout << "5. Exit"<<endl;
 		char choice;
 	cin >> choice;
 	cout << "\033[2J\033[1;1H";
@@ -22,6 +23,7 @@ int loginMain () {
 		case '2' :
 			return signup();
 			break;
+		case '5': exit(1);
 		default :
 			break;
 	}
@@ -63,36 +65,37 @@ int  login () {
 	//return 1; // Would be returning usertype in future
 }
 
-int signup () {
+int signup () 
+{
 //	system("clear");
 		User newUser;
 
 	cout << '\t' << "Enter Name :" << '\t';
-		string name;
+	string name;
 	// To clear input buffer
 	cin.ignore(numeric_limits<streamsize> :: max(), '\n');
 	getline(cin, name);
 
 	cout << '\t' << "Choose User Type (0-Buyer | 1-Seller):" << '\t';
-		int userType;
+	int userType;
 	cin>>userType;
 	cout << "\033[2J\033[1;1H";
 	cout << '\t' << "Enter Username :" << '\t';
-		string username;
+	string username;
 	cin >> username;
 
 	cout << '\t' << "Enter mobile Number :" << '\t';
-		long mobileNumber;
+	long mobileNumber;
 	cin >> mobileNumber;
 
 	cout << '\t' << "Enter Password :" << '\t';
-		char password[21];
+	char password[21];
 	// To clear input Buffer | taken from geeksforgeeks
     cin.ignore(numeric_limits<streamsize> :: max(), '\n');
 	scanf("%[^\n]s", password);
 
 	cout << '\t' << "Enter Debit Card Number :" << '\t';
-		struct debitCard card;
+	struct debitCard card;
 	cin >> card.cardNumber;
 
 	cout << '\t' << "Enter CVV :" << '\t';
@@ -110,6 +113,10 @@ int signup () {
 			string shopname;
 		cin >> shopname;
 		newSeller.setSellerDetails(newUser, shopname);
+		FILE *fp;
+		fp=fopen("Seller.txt","w");
+		fprintf(fp,"Shop name : %s | Name : %s | Username : %s | Mobile No : %ld | Password : %s | Card Number : %ld | CVV : %i", newSeller.getShopname().c_str(), newUser.getName().c_str(), newUser.getUsername().c_str(), newUser.getMobileNumber(),newUser.getPassword(), newUser.getCardNumber(), newUser.getCvv());
+		fclose(fp);
 //		newSeller.showDetails();
 		
 	}else {
@@ -162,4 +169,28 @@ int  authenticate (char Username[], char Password[])
 		}
 	}
 	return -1;
+}
+
+string nameofShop(char Username[] , char Password[])
+{
+	FILE *fp;
+	char shopname[100];
+	char password[21];
+	int userType;
+	char name[100];
+	char username[100];
+	long mobileNumber;
+	long cardNumber;
+	short cvv;
+	fp=fopen("Seller.txt","r");
+	while(!feof(fp))
+	{
+		fscanf(fp, "Shop Name : %s | Name : %s | Username : %s | Mobile No : %ld | Password : %s | Card Number : %ld | CVV : %hi", shopname,name, username, &mobileNumber,password ,&cardNumber,&cvv);
+		if(strcmp(username,Username)==0&&strcmp(Password,password)==0)
+		{
+			return shopname;
+		}
+	}
+	return NULL;
+	
 }

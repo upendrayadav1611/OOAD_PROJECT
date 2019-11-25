@@ -19,7 +19,7 @@ char pass[10],pass2[10];
 	}
 	else if(ch==1)
 	{
-		sellerMenu();
+		sellerShopName();
 	}
 	else if(ch==-1)
 	{

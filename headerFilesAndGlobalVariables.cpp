@@ -25,3 +25,13 @@ using namespace std;
 string globalUser = "LOGIN";
 fstream fout;
 fstream fin;
+int strcmpi (char *s1,char *s2)
+{
+    int i=0,diff=0;
+    for(i=0; s1[i]!='\0'; i++)
+    {
+        if( toupper(s1[i])!=toupper(s2[i]) )
+            return 1;           
+    }
+    return 0;
+}
