@@ -13,10 +13,10 @@ char shopname[100];
 void sellerShopName () {
     
     
-    cout<<"You are Logged In as a Seller\n";
-    cout<<"Enter Your Shop Name\n";
+    cout<<"\t\t\t====================You are Logged In as a Seller============================\n";
+    cout<<"Enter Your Shop Name: ";
     cin>>shopname;
-    cout << "\033[2J\033[1;1H";
+    system("clear");
     sellerMenu();
 }
 void sellerMenu()
@@ -27,7 +27,7 @@ void sellerMenu()
     cout << '\t' << "5. Exit"<<"\n";
         char choice;
     cin >> choice;
-    cout << "\033[2J\033[1;1H";
+    system("clear");
     switch(choice) {
         case '1' :
             registerProduct();
@@ -55,7 +55,7 @@ void updateProduct() {
     fp1 = fopen("DATA.txt","r");
     fp2= fopen("Temp.txt","w");
     //fp2 = fopen("DATA.txt","w");
-    printf("Enter id of the product to be updataed: ");
+    printf("Enter id of the product to be updated: ");
     scanf("%s", id1);
 
     while(!feof(fp1))
@@ -131,11 +131,13 @@ void showStock()
     {    
         fscanf(fp,"Shop Name : %s | Id : %s | Name : %s | Product Type : %s | Price : %lf | Quantity : %d | Discount : %lf",sname,id,name,productType,&price,&quantity,&discount);
         if(strcmpi(sname,shopname)==0)
-        cout<<sname<<"\t\t"<<id<<"\t\t"<<name<<" \t\t\t"<<productType<<"\t\t"<<price<<" \t\t"<<quantity<<" \t\t\t"<<discount<<"\n";
+        cout<<sname<<"\t\t\t"<<id<<"\t\t\t"<<name<<" \t\t\t"<<productType<<"\t\t\t"<<price<<" \t\t"<<quantity<<" \t\t\t"<<discount<<"\n";
     }
     fclose(fp);
     getch();
     //cout << "\033[2J\033[1;1H";
+    getch();
+    system("clear");
     sellerMenu();
 }
 void registerProduct()
@@ -147,13 +149,13 @@ void registerProduct()
 	double price;
 	int quantity;
 	double discount;
-    cout<<"Enter number of products you want to register\n";
+    cout<<"Enter number of products you want to register: ";
     cin>>n;
     FILE * fp;
     fp = fopen("DATA.txt", "a");
     for(int i=0;i<n;i++)
     {
-        cout<<"Enter Product "<<i+1<<"details"<<"\n";
+        cout<<"Enter Product "<<i+1<<" details"<<"\n";
         cout<<"Product id: ";
         cin>>id;
         cout<<"Product name: ";
@@ -171,10 +173,11 @@ void registerProduct()
         fprintf(fp, "Shop Name : %s | Id : %s | Name : %s | Product Type : %s | Price : %lf | Quantity : %d | Discount : %lf", shopname, newProduct.getId().c_str(), newProduct.getName().c_str(),newProduct.getproductType().c_str(), newProduct.getPrice(), newProduct.getQuantity(), newProduct.getDiscount());
     }
     fclose(fp);
-    cout<<"Products registered!!!\n";
-    cout<<"Press enter to continue\n";
+    cout<<"\t\t\t====================================Products registered!!!============================================\n";
+    cout<<"\t\t\t===============================Press enter to continue!!==============================================\n";
     getch();
-    cout << "\033[2J\033[1;1H";
+    getch();
+    system("clear");
     sellerMenu();
     //cout<<sizeof(newProduct)<<"\n";
 }

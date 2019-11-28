@@ -81,7 +81,7 @@ int signup ()
 	cin>>userType;
 	cout << "\033[2J\033[1;1H";
 	cout << '\t' << "Enter Username :" << '\t';
-	string username;
+	char username[100];
 	cin >> username;
 
 	cout << '\t' << "Enter mobile Number :" << '\t';
@@ -127,9 +127,8 @@ int signup ()
 
 		// To clear input Buffer | taken from geeksforgeeks
 		cin.ignore(numeric_limits<streamsize> :: max(), '\n');
-		cout << '\t' << "Enter locality :" << '\t';
-		getline(cin, add.locality);
-
+		cout<<'\t'<<"Enter Locality :"<<"\t";
+		cin>>add.locality;
 		cout << '\t' << "Enter City :" << '\t';
 		cin >> add.city;
 
@@ -140,11 +139,15 @@ int signup ()
 		cin >> add.pinCode;
 
 		newBuyer.setBuyerDetails(newUser, add);
+		FILE *fp;
+		fp=fopen("Buyer.txt","w");
+		fprintf(fp,"Name : %s | username : %s |  Mobile No. : %ld | Password : %s | Card Number : %ld | CVV : %hi | House No. : %s | Locality : %s | City : %s | State : %s | Pincode : %d",newUser.getName().c_str(),newUser.getUsername().c_str(), newUser.getMobileNumber(),newUser.getPassword(), newUser.getCardNumber(), newUser.getCvv(),newBuyer.getHouseNo().c_str(),newBuyer.getLocality().c_str(),newBuyer.getCity().c_str(),newBuyer.getState().c_str(),newBuyer.getPincode());
+		fclose(fp);
 //		newBuyer.showBuyerDetails();
 	}
 
 	cout << '\n' << "Account Created!" << endl;
-	globalUser = username;
+	strcpy(globalUser,username);
 //	system("clear");
 	return userType;
 }
@@ -165,13 +168,14 @@ int  authenticate (char Username[], char Password[])
 		fscanf(fp, "Name : %s | userType : %d | Username : %s | Mobile No : %ld | Password : %s | Card Number : %ld | CVV : %hi", name,&userType, username, &mobileNumber,password ,&cardNumber,&cvv);
 		if(strcmp(username,Username)==0&&strcmp(Password,password)==0)
 		{
+			strcpy(globalUser,username);
 			return userType;
 		}
 	}
 	return -1;
 }
 
-string nameofShop(char Username[] , char Password[])
+/*string nameofShop(char Username[] , char Password[])
 {
 	FILE *fp;
 	char shopname[100];
@@ -193,4 +197,4 @@ string nameofShop(char Username[] , char Password[])
 	}
 	return NULL;
 	
-}
+}*/

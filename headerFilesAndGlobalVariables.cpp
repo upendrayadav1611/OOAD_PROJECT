@@ -22,7 +22,7 @@
 
 using namespace std;
 
-string globalUser = "LOGIN";
+char globalUser[100];
 fstream fout;
 fstream fin;
 int strcmpi (char *s1,char *s2)
